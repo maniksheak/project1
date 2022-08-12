@@ -29,6 +29,7 @@ export default {
   .container {
       max-width: 900px;
     }
+
    .header {
     display: flex;
     justify-content: space-between;
@@ -52,7 +53,7 @@ export default {
     background: #333;
     color: #fff;
     padding: 0.5rem 1rem;
-    margin-right: 1rem;
+    margin-right: .5rem;
    }
 
    .header a:hover {

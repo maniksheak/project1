@@ -1,14 +1,74 @@
 <template>
-    <div class="container"> 
-        <h2>  Md Manik  Sheak </h2>
-        <p>I live in Bangladesh. I Became a Softwear Developer.</p>
-        <h4> My Hobi is Playing Footbal, Cricket. Sometimes behind the go-around.</h4>
+    <div> 
+        <SearchVue v-on:search-text="searchText"></SearchVue>
+        <jokeVue v-for="joke in jokes" :key="joke.id" :id="joke.id" :joke="joke.joke" ></jokeVue>
         </div>
 </template>
 
 <script>
-export default {
+import axios from 'axios';
+import jokeVue from '../../components/joke.vue'; 
+import SearchVue from '../../components/Search.vue';
 
+export default {
+components: {
+    jokeVue,
+    SearchVue
+},
+
+ data() {
+        return {
+            jokes: []
+        }
+    },
+    async created() {
+        const config = {
+            headers: {
+             'Accept': 'application/json'   
+            }
+        };
+
+        try {
+            const res = await axios.get('https://icanhazdadjoke.com/search', config);
+
+            this.jokes = res.data.results;
+
+        } catch (err) {
+            console.log(err);
+        }
+        
+    },
+    methods: {
+     async searchText(text) {
+        const config = {
+            headers: {
+             'Accept': 'application/json'   
+            }
+        };
+
+        try {
+            const res = await axios.get(`https://icanhazdadjoke.com/search?term= ${text}`, config);
+
+            this.jokes = res.data.results;
+
+        } catch (err) {
+            console.log(err);
+        }   
+      },
+    },
+
+   head() {
+        return {
+            title: 'Manik Makes',
+            meta: [
+                {
+                    hid: 'Description',
+                    name: 'Description',
+                    content: 'Best Place for corny manik jokes'
+                }
+            ]
+        };
+    },
 }
 </script>
 
